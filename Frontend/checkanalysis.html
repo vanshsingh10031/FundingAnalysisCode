@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Funding Intelligence</title>
+
+<style>
+/* ---------------- BASE ---------------- */
+body {
+    background: radial-gradient(circle at top, #0c1f3d 0%, #020617 70%);
+    color: #e5e7eb;
+    font-family: 'Inter', system-ui, sans-serif;
+    margin: 0;
+    padding: 60px 24px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    max-width: 920px;
+    width: 100%;
+}
+
+/* ---------------- ENTRY ---------------- */
+#entrySection {
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+#entrySection.hidden {
+    opacity: 0;
+    transform: translateY(-24px);
+    pointer-events: none;
+    height: 0;
+    overflow: hidden;
+}
+
+h2 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: #ffffff;
+}
+
+.subtitle {
+    font-size: 0.95rem;
+    color: #94a3b8;
+    margin-bottom: 44px;
+}
+
+label {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-top: 28px;
+    display: block;
+}
+
+textarea, input, select {
+    width: 100%;
+    padding: 12px 10px;
+    margin-top: 8px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #1e293b;
+    color: #e5e7eb;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+}
+
+textarea:focus, input:focus, select:focus {
+    border-bottom: 1px solid #38bdf8;
+    outline: none;
+}
+
+button {
+    margin-top: 48px;
+    padding: 14px 44px;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-family: monospace;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background: #ffffff;
+    color: #020617;
+    box-shadow: 0 0 25px rgba(255,255,255,0.25);
+}
+
+/* ---------------- LOADER ---------------- */
+#loader {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle, #020617 0%, #000 80%);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 999;
+}
+
+#loader.active { display: flex; }
+
+.loader-line {
+    width: 24px;
+    height: 2px;
+    background: #38bdf8;
+    animation: pulse 1.4s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0%,100% { width: 20px; opacity: .4; }
+    50% { width: 90px; opacity: 1; }
+}
+
+.loader-text {
+    margin-top: 20px;
+    font-size: .75rem;
+    letter-spacing: 3px;
+    font-family: monospace;
+    color: #94a3b8;
+    text-transform: uppercase;
+}
+
+/* ---------------- ANALYSIS ---------------- */
+#analysisSection {
+    display: none;
+    animation: fadeIn 0.7s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.analysis-header {
+    font-size: 1.9rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 10px;
+}
+
+.analysis-sub {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin-bottom: 36px;
+}
+
+/* SINGLE OUTPUT PANEL */
+.analysis-panel {
+    background: linear-gradient(180deg, #0b1220, #060a14);
+    border: 1px solid #1e293b;
+    border-radius: 8px;
+    padding: 34px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.55);
+}
+
+.analysis-panel pre {
+    margin: 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    white-space: pre-wrap;
+    color: #e5e7eb;
+}
+
+/* subtle emphasis */
+.analysis-panel strong {
+    color: #ffffff;
+}
+
+.sources {
+    margin-top: 28px;
+    font-size: 0.75rem;
+    color: #64748b;
+    line-height: 1.6;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+    <div class="loader-line"></div>
+    <div class="loader-text">Analyzing Funding Signals</div>
+</div>
+
+<div class="container">
+
+<!-- ENTRY -->
+<div id="entrySection">
+    <h2>AI Startup Funding Intelligence</h2>
+    <div class="subtitle">
+        Evidence-based investor matching using founder signals and traction data
+    </div>
+
+    <label>Startup Description</label>
+    <textarea id="description" rows="6"></textarea>
+
+    <label>Sector</label>
+    <input id="sector">
+
+    <label>Funding Stage</label>
+    <select id="stage">
+        <option>Pre-Seed</option>
+        <option>Seed</option>
+        <option>Series A</option>
+        <option>Series B</option>
+    </select>
+
+    <label>Geography</label>
+    <select id="geography">
+        <option>India</option>
+        <option>India + Global</option>
+        <option>Global</option>
+    </select>
+
+    <label>Funding Goal</label>
+    <textarea id="goal" rows="3"></textarea>
+
+    <button onclick="analyzeFunding()">Run Funding Analysis</button>
+</div>
+
+<!-- ANALYSIS -->
+<div id="analysisSection">
+    <div class="analysis-header">Funding Analysis</div>
+    <div class="analysis-sub">
+        Generated using contextual investor data and funding-stage alignment
+    </div>
+
+    <div class="analysis-panel">
+        <pre id="output"></pre>
+    </div>
+</div>
+
+</div>
+
+<script>
+/* SCRIPT LOGIC UNCHANGED */
+async function analyzeFunding() {
+    const loader = document.getElementById("loader");
+    const output = document.getElementById("output");
+
+    loader.classList.add("active");
+    output.innerText = "";
+
+    const payload = {
+        startup_description: description.value,
+        stage: stage.value,
+        sector: sector.value,
+        geography: geography.value,
+        funding_goal: goal.value
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8000/analyze", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        loader.classList.remove("active");
+        document.getElementById("entrySection").classList.add("hidden");
+        document.getElementById("analysisSection").style.display = "block";
+
+        output.innerText =
+            data.analysis +
+            "\n\nSources:\n" +
+            data.sources.join(", ");
+
+    } catch (error) {
+        loader.classList.remove("active");
+        output.innerText = "Error analyzing funding.\n\n" + error.message;
+    }
+}
+</script>
+
+</body>
+</html>

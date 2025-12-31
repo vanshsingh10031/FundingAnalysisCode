@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Funding Diagnostic — Evaluation</title>
+
+    <style>
+        body {
+            background: linear-gradient(180deg, #001219 0%, #002838 100%);
+            color: #E0F2FE;
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            width: 220%;
+            height: 220%;
+            background: repeating-radial-gradient(
+                circle,
+                rgba(255,255,255,0.015) 0%,
+                transparent 12%
+            );
+            animation: ripple 40s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes ripple {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 760px;
+            padding: 0 24px;
+        }
+
+        .pause-statement {
+            color: #6b8fa6;
+            font-family: monospace;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+
+        .counter-question {
+            margin-top: 42px;
+            font-size: 2.05rem;
+            font-weight: 600;
+            line-height: 1.45;
+            color: #FFFFFF;
+            text-shadow: 0 0 18px rgba(255,255,255,0.15);
+        }
+
+        .subtext {
+            margin-top: 16px;
+            font-size: 0.9rem;
+            color: #9fb7c9;
+            font-family: 'Courier New', monospace;
+        }
+
+        .response-box {
+            margin-top: 48px;
+            text-align: left;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 60px;
+            max-height: 140px;
+            resize: vertical;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #2b4a5f;
+            color: #E0F2FE;
+            font-size: 1rem;
+            font-family: 'Courier New', monospace;
+            padding: 10px 4px;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        textarea::placeholder {
+            color: #5f7f94;
+        }
+
+        textarea:focus {
+            border-bottom: 1px solid #8ecae6;
+        }
+
+        .submit {
+            margin-top: 18px;
+            display: inline-block;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #8ecae6;
+            opacity: 0;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .submit.active {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="pause-statement">
+            RESPONSE LOGGED — VALIDATING SIGNAL
+        </div>
+        
+        <div class="counter-question">
+            If an investor asked for proof tomorrow, what would you show first?
+        </div>
+
+        <div class="subtext">
+            Metrics. Users. Revenue. Pilots. Evidence only.
+        </div>
+
+        <div class="response-box">
+            <textarea 
+                id="response"
+                placeholder="State the single strongest proof you have."
+            ></textarea>
+
+            <div class="submit" id="submitBtn">
+                Submit →
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const textarea = document.getElementById("response");
+        const submitBtn = document.getElementById("submitBtn");
+
+        function saveAndContinue() {
+            const value = textarea.value.trim();
+            if (value.length < 6) return;
+
+            const existingData = JSON.parse(
+                localStorage.getItem("funding_diagnostic")
+            ) || {};
+
+            existingData.q3_proof_signal = value;
+
+            localStorage.setItem(
+                "funding_diagnostic",
+                JSON.stringify(existingData)
+            );
+
+            window.location.href = "/static/5.html";
+        }
+
+        textarea.addEventListener("input", () => {
+            if (textarea.value.trim().length > 5) {
+                submitBtn.classList.add("active");
+            } else {
+                submitBtn.classList.remove("active");
+            }
+        });
+
+        textarea.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                saveAndContinue();
+            }
+        });
+
+        submitBtn.addEventListener("click", saveAndContinue);
+    </script>
+
+</body>
+</html>

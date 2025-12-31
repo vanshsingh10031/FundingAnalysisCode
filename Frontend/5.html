@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            background: radial-gradient(circle at center, #001B2E 0%, #000C18 100%);
+            color: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: left;
+        }
+
+        .container {
+            max-width: 620px;
+            width: 90%;
+            border-left: 2px solid #22D3EE;
+            padding-left: 40px;
+        }
+
+        .meta-tag {
+            font-family: monospace;
+            color: #6b8fa6;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            margin-bottom: 18px;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            line-height: 1.45;
+            margin-bottom: 46px;
+            font-weight: 600;
+        }
+
+        .subline {
+            font-size: 0.85rem;
+            color: #8fbcd4;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 36px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: baseline;
+            gap: 14px;
+        }
+
+        input[type="number"] {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #22D3EE;
+            color: #22D3EE;
+            font-size: 3rem;
+            font-family: 'Courier New', monospace;
+            width: 140px;
+            outline: none;
+            text-align: center;
+        }
+
+        .unit {
+            font-size: 1.1rem;
+            color: #6b8fa6;
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+
+        .confirm {
+            margin-top: 28px;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #22D3EE;
+            opacity: 0;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+            font-family: monospace;
+        }
+
+        .confirm.active {
+            opacity: 1;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="meta-tag">TRACTION_VALIDATION // PHASE_06</div>
+
+        <h2>
+            How many real users have actively used your product in the last 30 days?
+        </h2>
+
+        <div class="subline">
+            Not signups. Not interest. Actual usage.
+        </div>
+
+        <div class="input-group">
+            <input id="userCount" type="number" placeholder="0" min="0" autofocus>
+            <span class="unit">ACTIVE USERS</span>
+        </div>
+
+        <div class="confirm" id="confirmBtn">
+            Confirm →
+        </div>
+    </div>
+
+    <script>
+        const input = document.getElementById("userCount");
+        const confirmBtn = document.getElementById("confirmBtn");
+
+        function saveAndContinue() {
+            const value = input.value;
+
+            if (value === "" || Number(value) < 0) return;
+
+            const existingData = JSON.parse(
+                localStorage.getItem("funding_diagnostic")
+            ) || {};
+
+            existingData.q4_active_users_30d = Number(value);
+
+            localStorage.setItem(
+                "funding_diagnostic",
+                JSON.stringify(existingData)
+            );
+
+            window.location.href = "/static/7.html";
+        }
+
+        input.addEventListener("input", () => {
+            if (input.value !== "" && Number(input.value) >= 0) {
+                confirmBtn.classList.add("active");
+            } else {
+                confirmBtn.classList.remove("active");
+            }
+        });
+
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                saveAndContinue();
+            }
+        });
+
+        confirmBtn.addEventListener("click", saveAndContinue);
+    </script>
+
+</body>
+</html>

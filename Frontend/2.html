@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Plan C — Funding Diagnostic</title>
+
+  <style>
+    :root {
+      --bg-deep: #040b17;
+      --bg-mid: #07162b;
+      --panel: #0b1220;
+      --text-main: #ffffff;
+      --text-muted: #9aa9c8; /* slightly softer */
+      --line: #1a2a45;
+      --accent: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", "IBM Plex Sans", system-ui, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background:
+        radial-gradient(
+          circle at top,
+          #0c1f3d 0%,
+          var(--bg-mid) 35%,
+          var(--bg-deep) 75%
+        );
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .frame {
+      width: 100%;
+      max-width: 760px;
+      padding: 56px 28px;
+      background: linear-gradient(180deg, #0c1a32, var(--panel));
+      border: 1px solid var(--line);
+      box-shadow:
+        0 20px 60px rgba(0,0,0,0.6),
+        inset 0 0 0 1px rgba(255,255,255,0.02);
+      position: relative;
+    }
+
+    .question {
+      font-size: 28px; /* slightly softer */
+      font-weight: 500;
+      line-height: 1.45;
+      letter-spacing: -0.2px;
+      margin-bottom: 12px;
+    }
+
+    .instruction {
+      font-size: 13px;
+      color: var(--text-muted);
+      letter-spacing: 0.4px;
+      margin-bottom: 40px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .option {
+      position: relative;
+      padding: 18px 18px 18px 22px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.01);
+      cursor: pointer;
+      transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.15s ease;
+    }
+
+    .option:hover {
+      border-color: #2a3f6a;
+      background: rgba(255,255,255,0.03);
+      transform: translateX(2px);
+    }
+
+    .option input {
+      display: none;
+    }
+
+    .option label {
+      position: relative;
+      z-index: 1;
+      font-size: 15px;
+      line-height: 1.45;
+      cursor: pointer;
+      color: #e5ebf7; /* softer white */
+    }
+
+    .option input:checked + label {
+      padding-left: 12px;
+    }
+
+    .option input:checked + label::before {
+      content: "";
+      position: absolute;
+      left: -22px;
+      top: 0;
+      height: 100%;
+      width: 3px;
+      background: var(--accent);
+    }
+
+    .confirm {
+      margin-top: 44px;
+      padding: 14px 34px;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--text-main);
+      font-size: 13px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      opacity: 0.25;
+      pointer-events: none;
+      transition: opacity 0.2s ease, border-color 0.2s ease;
+    }
+
+    .confirm.active {
+      opacity: 1;
+      pointer-events: auto;
+      border-color: var(--accent);
+    }
+
+    .confirm:hover {
+      background: rgba(255,255,255,0.05);
+    }
+
+    .progress {
+      position: absolute;
+      bottom: -32px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="frame">
+
+    <!-- QUESTION -->
+    <div class="question">
+      What best describes your primary reason for building this startup?
+    </div>
+
+    <div class="instruction">
+      Choose the option that most closely reflects your current intent.
+    </div>
+
+    <!-- OPTIONS -->
+    <form class="options">
+      <div class="option">
+        <input type="radio" name="q1" id="q1o1">
+        <label for="q1o1">I identified a clear market gap and built a solution around it</label>
+      </div>
+
+      <div class="option">
+        <input type="radio" name="q1" id="q1o2">
+        <label for="q1o2">I started from a technical capability and looked for use cases</label>
+      </div>
+
+      <div class="option">
+        <input type="radio" name="q1" id="q1o3">
+        <label for="q1o3">I am exploring opportunities and validating assumptions</label>
+      </div>
+
+      <div class="option">
+        <input type="radio" name="q1" id="q1o4">
+        <label for="q1o4">External factors (funding trends, hype, peers) influenced the decision</label>
+      </div>
+
+      <div class="option">
+        <input type="radio" name="q1" id="q1o5">
+        <label for="q1o5">The direction is still evolving and not fully defined</label>
+      </div>
+    </form>
+
+    <!-- CONFIRM -->
+    <button class="confirm" id="confirmBtn">
+      Confirm & Continue
+    </button>
+
+    <!-- PROGRESS -->
+    <div class="progress">
+      01 / 10 — Funding Diagnostic
+    </div>
+
+  </div>
+
+<script>
+  const radios = document.querySelectorAll('input[type="radio"]');
+  const btn = document.getElementById('confirmBtn');
+
+  let selectedValue = null;
+
+  radios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      btn.classList.add('active');
+      selectedValue = document.querySelector(`label[for="${radio.id}"]`).innerText;
+    });
+  });
+
+  btn.addEventListener('click', () => {
+    if (!selectedValue) return;
+
+    // Get existing diagnostic data or initialize
+    const existingData = JSON.parse(
+      localStorage.getItem("funding_diagnostic")
+    ) || {};
+
+    // Save answer
+    existingData.q1_reason = selectedValue;
+
+    localStorage.setItem(
+      "funding_diagnostic",
+      JSON.stringify(existingData)
+    );
+
+    // Redirect to next page
+    window.location.href = "/static/3.html";
+  });
+</script>
+
+
+</body>
+</html>

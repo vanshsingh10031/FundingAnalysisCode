@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            background-color: #0B1220;
+            color: #E5E7EB;
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: left;
+        }
+
+        .container {
+            max-width: 620px;
+            width: 90%;
+            border-left: 2px solid #38BDF8;
+            padding-left: 42px;
+        }
+
+        .meta {
+            font-family: monospace;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            color: #64748B;
+            margin-bottom: 18px;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            line-height: 1.45;
+            font-weight: 600;
+            margin-bottom: 18px;
+        }
+
+        .subtext {
+            font-size: 0.85rem;
+            color: #94A3B8;
+            font-family: 'Courier New', monospace;
+            margin-bottom: 42px;
+        }
+
+        .input-row {
+            display: flex;
+            align-items: baseline;
+            gap: 14px;
+        }
+
+        input {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #38BDF8;
+            color: #38BDF8;
+            font-size: 2.8rem;
+            font-family: 'Courier New', monospace;
+            width: 200px;
+            outline: none;
+        }
+
+        .unit {
+            font-size: 1.1rem;
+            color: #64748B;
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+
+        .confirm {
+            margin-top: 30px;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #38BDF8;
+            opacity: 0;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+            font-family: monospace;
+        }
+
+        .confirm.active {
+            opacity: 1;
+        }
+
+        input::placeholder {
+            color: #334155;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="meta">FINANCIAL_SIGNAL // PHASE_07</div>
+
+        <h2>
+            How much total revenue has this product generated so far?
+        </h2>
+
+        <div class="subtext">
+            Real payments only. Grants, prizes, or projected numbers do not count.
+        </div>
+
+        <div class="input-row">
+            <input id="revenue" type="number" placeholder="0" min="0" autofocus>
+            <span class="unit">INR</span>
+        </div>
+
+        <div class="confirm" id="confirmBtn">
+            Confirm →
+        </div>
+    </div>
+
+    <script>
+        const input = document.getElementById("revenue");
+        const confirmBtn = document.getElementById("confirmBtn");
+
+        function saveAndContinue() {
+            const value = input.value;
+
+            if (value === "" || Number(value) < 0) return;
+
+            const existingData = JSON.parse(
+                localStorage.getItem("funding_diagnostic")
+            ) || {};
+
+            existingData.q5_total_revenue_inr = Number(value);
+
+            localStorage.setItem(
+                "funding_diagnostic",
+                JSON.stringify(existingData)
+            );
+
+            window.location.href = "/static/8.html";
+        }
+
+        input.addEventListener("input", () => {
+            if (input.value !== "" && Number(input.value) >= 0) {
+                confirmBtn.classList.add("active");
+            } else {
+                confirmBtn.classList.remove("active");
+            }
+        });
+
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                saveAndContinue();
+            }
+        });
+
+        confirmBtn.addEventListener("click", saveAndContinue);
+    </script>
+
+</body>
+</html>

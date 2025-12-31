@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Diagnostic Complete</title>
+
+    <style>
+        body {
+            background: radial-gradient(circle at bottom, #1e293b 0%, #0a0a0b 70%);
+            color: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .statement {
+            font-size: 2.4rem;
+            font-weight: 700;
+            max-width: 720px;
+            line-height: 1.25;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+            animation: fadeIn 2.5s ease-out;
+        }
+
+        .subtext {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            font-family: monospace;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 70px;
+            animation: fadeIn 3.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .actions {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .primary-btn {
+            background: transparent;
+            border: 1px solid #ffffff;
+            color: #ffffff;
+            padding: 14px 42px;
+            font-family: monospace;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .primary-btn:hover {
+            background: #ffffff;
+            color: #0a0a0b;
+            box-shadow: 0 0 25px rgba(255,255,255,0.25);
+        }
+
+        .secondary-btn {
+            background: transparent;
+            border: none;
+            color: #52525B;
+            font-family: monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .secondary-btn:hover {
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="statement">
+        This is not a verdict.<br>
+        This is your baseline.
+    </div>
+
+    <div class="subtext">
+        Clarity precedes momentum
+    </div>
+
+    <div class="actions">
+        <button class="primary-btn" onclick="goToAnalysis()">
+            View Analysis
+        </button>
+
+        <button class="secondary-btn" onclick="restartDiagnostic()">
+            Restart Diagnostic
+        </button>
+    </div>
+
+    <script>
+        function goToAnalysis() {
+            window.location.href = "/static/checkanalysis.html";
+        }
+
+        function restartDiagnostic() {
+            // Optional: clear previous answers
+            localStorage.removeItem("funding_diagnostic");
+
+            window.location.href = "/static/intropage.html";
+        }
+    </script>
+
+</body>
+</html>

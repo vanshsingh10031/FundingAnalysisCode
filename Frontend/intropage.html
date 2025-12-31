@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan C: Funding Reality Check</title>
+    <style>
+        /* "Cool" Analytical Theme */
+        body {
+            background: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
+            color: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        body::before {
+            content: " ";
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .system-status {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-family: monospace;
+            font-size: 10px;
+            color: #334155;
+            letter-spacing: 3px;
+        }
+
+        .container {
+            z-index: 20;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(255,255,255,0.1);
+        }
+
+        p {
+            font-size: 1rem;
+            color: #94a3b8;
+            margin: 15px 0 40px 0;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+
+        .btn-diagnostic {
+            background-color: transparent;
+            color: #FFFFFF;
+            border: 1px solid #FFFFFF;
+            padding: 15px 40px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .btn-diagnostic:hover {
+            background-color: #FFFFFF;
+            color: #020617;
+            box-shadow: 0 0 20px rgba(255,255,255,0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="system-status">LINK_SECURE // FUNDING_EVAL: ACTIVE</div>
+
+    <div class="container">
+        <h1>Plan C: Funding Reality Check</h1>
+        <p>This system does not promise funding. It evaluates investor alignment.</p>
+        <button class="btn-diagnostic" onclick="startDiagnostic()">
+    Start Diagnostic
+</button>
+    </div>
+
+
+<script>
+function startDiagnostic() {
+window.location.href = "/static/2.html";
+}
+</script>
+</body>
+</html>

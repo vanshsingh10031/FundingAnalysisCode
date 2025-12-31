@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Funding Intelligence</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #fafafa;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+
+        textarea, input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 18px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        pre {
+            background: #f4f4f4;
+            padding: 15px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+            border-radius: 6px;
+        }
+
+        .loading {
+            color: #555;
+            font-style: italic;
+        }
+
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>AI Startup Funding Intelligence</h2>
+
+<label>Startup Description</label>
+<textarea id="description" rows="7"
+    placeholder="Describe your startup: problem, solution, traction, and team..."></textarea>
+
+<label>Sector</label>
+<input id="sector" placeholder="AI, FinTech, HealthTech, SaaS">
+
+<label>Funding Stage</label>
+<select id="stage">
+    <option value="Pre-Seed">Pre-Seed</option>
+    <option value="Seed">Seed</option>
+    <option value="Series A">Series A</option>
+    <option value="Series B">Series B</option>
+</select>
+
+<label>Geography</label>
+<select id="geography">
+    <option value="India">India</option>
+    <option value="India + Global">India + Global</option>
+    <option value="Global">Global</option>
+</select>
+
+<label>Funding Goal</label>
+<textarea id="goal" rows="3"
+    placeholder="e.g. Raise $1.5M to scale engineering, improve product, and acquire customers"></textarea>
+
+<button onclick="analyzeFunding()">Analyze Funding</button>
+
+<h3>Result</h3>
+<pre id="output"></pre>
+
+<script>
+async function analyzeFunding() {
+    const output = document.getElementById("output");
+    output.className = "loading";
+    output.innerText = "Analyzing funding fit... Please wait.";
+
+    const payload = {
+        startup_description: document.getElementById("description").value,
+        stage: document.getElementById("stage").value,
+        sector: document.getElementById("sector").value,
+        geography: document.getElementById("geography").value,
+        funding_goal: document.getElementById("goal").value
+    };
+
+    try {
+        const response = await fetch("http://127.0.0.1:8000/analyze", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+            throw new Error("Backend error: " + response.status);
+        }
+
+        const data = await response.json();
+
+        output.className = "";
+        output.innerText =
+            data.analysis +
+            "\n\nSources:\n" +
+            data.sources.join(", ");
+
+    } catch (error) {
+        output.className = "error";
+        output.innerText =
+            "Error analyzing funding.\n\n" + error.message;
+    }
+}
+</script>
+
+</body>
+</html>

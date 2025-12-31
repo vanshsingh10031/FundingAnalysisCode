@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Plan C — Funding Diagnostic</title>
+
+    <style>
+        body {
+            background-color: #020408;
+            background-image: radial-gradient(circle at 50% 40%, #0f172a 0%, #020408 100%);
+            color: #F8FAFC;
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 640px;
+            width: 85%;
+        }
+
+        .label {
+            font-family: monospace;
+            font-size: 11px;
+            color: #64748b;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+        }
+
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 500;
+            line-height: 1.45;
+            color: #F8FAFC;
+        }
+
+        .hint {
+            margin-top: 12px;
+            font-size: 13px;
+            color: #94a3b8;
+            font-family: 'Courier New', monospace;
+        }
+
+        input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #1e293b;
+            color: #22D3EE;
+            font-size: 1.4rem;
+            font-family: 'Courier New', monospace;
+            outline: none;
+            margin-top: 40px;
+            caret-color: #22D3EE;
+            padding-bottom: 6px;
+        }
+
+        input:focus {
+            border-bottom: 2px solid #22D3EE;
+        }
+
+        .confirm {
+            margin-top: 50px;
+            padding: 12px 32px;
+            border: 1px solid #1e293b;
+            background: transparent;
+            color: #94a3b8;
+            font-family: monospace;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            opacity: 0.3;
+            pointer-events: none;
+            transition: all 0.25s ease;
+        }
+
+        .confirm.active {
+            opacity: 1;
+            color: #ffffff;
+            border-color: #22D3EE;
+            pointer-events: auto;
+        }
+
+        .progress {
+      position: absolute;
+      bottom: -32px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+        .confirm:hover {
+            background: rgba(255,255,255,0.04);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="label">FUNDING_DIAGNOSTIC — FOUNDER_SIGNAL</div>
+
+        <h2>
+            Describe the core problem your startup solves in one sentence, without using industry jargon.
+        </h2>
+
+        <div class="hint">
+            Example: Avoid words like “AI-powered”, “platform”, “disruption”.
+        </div>
+
+        <input 
+            id="answerInput"
+            type="text" 
+            autofocus 
+            spellcheck="false"
+            placeholder="Type your response here..."
+        />
+
+        <button class="confirm" id="confirmBtn">
+            Confirm & Continue
+        </button>
+
+
+        <!-- PROGRESS -->
+    <div class="progress">
+      02 / 10 — Funding Diagnostic
+    </div>
+    </div>
+
+    <script>
+        const input = document.getElementById("answerInput");
+        const btn = document.getElementById("confirmBtn");
+
+        function saveAndContinue() {
+            const value = input.value.trim();
+            if (!value) return;
+
+            const existingData = JSON.parse(
+                localStorage.getItem("funding_diagnostic")
+            ) || {};
+
+            existingData.q2_problem_statement = value;
+
+            localStorage.setItem(
+                "funding_diagnostic",
+                JSON.stringify(existingData)
+            );
+
+            window.location.href = "/static/4.html";
+        }
+
+        input.addEventListener("input", () => {
+            if (input.value.trim() !== "") {
+                btn.classList.add("active");
+            } else {
+                btn.classList.remove("active");
+            }
+        });
+
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                saveAndContinue();
+            }
+        });
+
+        btn.addEventListener("click", saveAndContinue);
+    </script>
+
+</body>
+</html>

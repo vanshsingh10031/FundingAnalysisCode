@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            /* Lighter Slate Navy Background */
+            background-color: #1E293B; 
+            background-image: radial-gradient(circle at center, #334155 0%, #1E293B 100%);
+            color: #F1F5F9;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .panel {
+            flex: 1;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            /* Inset appearance for the panels */
+            background: rgba(15, 23, 42, 0.4); 
+            margin: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .label {
+            font-family: monospace;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: #94A3B8; /* Muted Slate */
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 10px;
+        }
+
+        .point-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .point {
+            font-size: 1rem;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(2, 6, 23, 0.3);
+            border-right: 4px solid transparent;
+        }
+
+        /* Logic Colors */
+        .match { border-right-color: #F1F5F9; }
+        .gap { border-right-color: #B91C1C; color: #FECACA; } 
+        .warning { border-right-color: #D97706; color: #FDE68A; }
+
+    </style>
+</head>
+<body>
+
+    <div class="panel">
+        <div class="label">DATA_SOURCE: USER_CLAIMS</div>
+        <h2>Your Claims</h2>
+        <ul class="point-list">
+            <li class="point match">5 Years Professional Experience</li>
+            <li class="point warning">Expert Proficiency in Neural Networks</li>
+            <li class="point gap">15 Hours/Week Research Time</li>
+        </ul>
+    </div>
+
+    <div class="panel">
+        <div class="label">DATA_SOURCE: INDUSTRY_AVG</div>
+        <h2>Expectations</h2>
+        <ul class="point-list">
+            <li class="point match">3-5 Years for Senior Roles</li>
+            <li class="point warning">Requires Peer-Reviewed Implementation</li>
+            <li class="point gap">Minimum 25 Hours for Mastery Speed</li>
+        </ul>
+    </div>
+
+</body>
+</html>
