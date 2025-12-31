@@ -1,0 +1,80 @@
+# ===============================
+# Python / Virtual Environment
+# ===============================
+venv/
+.venv/
+ENV/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+
+# ===============================
+# Environment Variables / Secrets
+# ===============================
+.env
+.env.*
+*.env
+
+# ===============================
+# Python build artifacts
+# ===============================
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ===============================
+# Logs / Temp files
+# ===============================
+*.log
+*.tmp
+
+# ===============================
+# Jupyter / Notebooks
+# ===============================
+.ipynb_checkpoints/
+
+# ===============================
+# Data (RAG / embeddings / vector DBs)
+# ===============================
+data/
+datasets/
+embeddings/
+chroma/
+vectorstore/
+
+# ===============================
+# ML / Model files (NEVER COMMIT)
+# ===============================
+*.pt
+*.pth
+*.onnx
+*.bin
+*.ckpt
+*.safetensors
+
+# ===============================
+# Frontend (if any)
+# ===============================
+node_modules/
+dist/
+build/
+.next/
+out/
+
+# ===============================
+# OS / Editor junk
+# ===============================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# ===============================
+# Git merge leftovers
+# ===============================
+*.orig
